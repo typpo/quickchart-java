@@ -1,6 +1,6 @@
 package io.quickchart.examples;
 
-import io.quickchart.core.QuickChart;
+import io.quickchart.QuickChart;
 
 public class ToFileExample {
 

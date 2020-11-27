@@ -1,4 +1,4 @@
-package io.quickchart.core;
+package io.quickchart;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.BufferedHttpEntity;

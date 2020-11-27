@@ -1,5 +1,6 @@
 package io.quickchart.core;
 
+import io.quickchart.QuickChart;
 import junit.framework.TestCase;
 
 public class QuickChartTest extends TestCase {
