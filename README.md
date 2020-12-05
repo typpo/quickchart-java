@@ -53,14 +53,14 @@ For more details on configuring your chart, reference the [QuickChart documentat
 Use `getUrl()` on your QuickChart object to get the encoded URL that renders your chart:
 
 ```java
-Console.WriteLine(qc.getUrl());
+System.out.println(qc.getUrl());
 // https://quickchart.io/chart?c=%7B%22chart%22%3A+%7B%22type%22%3A+%22bar%22%2C+%22data%22%3A+%7B%22labels%22%3A+%5B%22Hello+world%22%2C+%22Test%22%5D%2C+%22datasets%22%3A+%5B%7B%22label%22%3A+%22Foo%22%2C+%22data%22%3A+%5B1%2C+2%5D%7D%5D%7D%7D%7D&w=600&h=300&bkg=%23ffffff&devicePixelRatio=2.0&f=png
 ```
 
 If you have a long or complicated chart, use `getShortUrl()` to get a fixed-length URL using the quickchart.io web service (note that these URLs only persist for a short time unless you have a subscription):
 
 ```java
-Console.WriteLine(qc.getShortUrl());
+System.out.println(qc.getShortUrl());
 # https://quickchart.io/chart/render/f-a1d3e804-dfea-442c-88b0-9801b9808401
 ```
 
