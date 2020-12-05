@@ -1,15 +1,34 @@
-# quickchart-java
-
-Java client for QuickChart.io chart API.
-
+quickchart-java
 ---
+![Maven Central](http://img.shields.io/maven-central/v/io.quickchart/QuickChart.svg?style=flat)
+
+A Java client for the QuickChart.io chart API.
+
+## Installation 
+
+Add QuickChart to your project (Java 6+).
+
+Maven:
+```xml
+<dependency>
+    <groupId>io.quickchart</groupId>
+    <artifactId>QuickChart</artifactId>
+</dependency>
+```
+
+Gradle:
+```gradle
+dependencies {
+    implementation 'io.quickchart:Quickchart:VERSION'
+}
+```
 
 ## Usage
 
 This library provides a `QuickChart` namespace containing a `Chart` class.  Import and instantiate it.  Then set properties on it and specify a [Chart.js](https://chartjs.org) config:
 
 ```java
-import io.quickchart.core.QuickChart;
+import io.quickchart.QuickChart;
 
 // ...
 
@@ -29,14 +48,16 @@ chart.setConfig("{"
 );
 ```
 
-Use `GetUrl()` on your QuickChart object to get the encoded URL that renders your chart:
+For more details on configuring your chart, reference the [QuickChart documentation](https://quickchart.io/documentation/).
+
+Use `getUrl()` on your QuickChart object to get the encoded URL that renders your chart:
 
 ```java
 Console.WriteLine(qc.getUrl());
 // https://quickchart.io/chart?c=%7B%22chart%22%3A+%7B%22type%22%3A+%22bar%22%2C+%22data%22%3A+%7B%22labels%22%3A+%5B%22Hello+world%22%2C+%22Test%22%5D%2C+%22datasets%22%3A+%5B%7B%22label%22%3A+%22Foo%22%2C+%22data%22%3A+%5B1%2C+2%5D%7D%5D%7D%7D%7D&w=600&h=300&bkg=%23ffffff&devicePixelRatio=2.0&f=png
 ```
 
-If you have a long or complicated chart, use `GetShortUrl()` to get a fixed-length URL using the quickchart.io web service (note that these URLs only persist for a short time unless you have a subscription):
+If you have a long or complicated chart, use `getShortUrl()` to get a fixed-length URL using the quickchart.io web service (note that these URLs only persist for a short time unless you have a subscription):
 
 ```java
 Console.WriteLine(qc.getShortUrl());
@@ -71,7 +92,6 @@ The background color of the chart. Any valid HTML color works. Defaults to #ffff
 The device pixel ratio of the chart. This will multiply the number of pixels by the value. This is usually used for retina displays. Defaults to 1.0.
 
 ### setKey(String)
-
 API key (not required)
 
 ---
