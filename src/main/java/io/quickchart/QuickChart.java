@@ -16,9 +16,12 @@ import java.util.Base64;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 
+/**
+ * A client for the QuickChart Chart API.
+ *
+ */
 public class QuickChart {
 	private Integer width = 500;
 	private Integer height = 300;
@@ -27,71 +30,150 @@ public class QuickChart {
 	private String key;
 	private String config;
 
-	private String protocol;
+	private String scheme;
 	private String host;
 	private Integer port;
 
+	/**
+	 * Create a default QuickChart object.
+	 */
 	public QuickChart() {
 		this("https", "quickchart.io", 443);
 	}
 
-	public QuickChart(String protocol, String host, Integer port) {
-		this.protocol = protocol;
+	/**
+	 * Create a QuickChart object with custom host.
+	 * 
+	 * @param scheme HTTP or HTTPS
+	 * @param host   Hostname
+	 * @param port   Port
+	 */
+	public QuickChart(String scheme, String host, Integer port) {
+		this.scheme = scheme;
 		this.host = host;
 		this.port = port;
 	}
 
+	/**
+	 * Get the width of the chart, in pixels
+	 * 
+	 * @return Width in pixels
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * Set the width of the chart, in pixels
+	 * 
+	 * @param width Width in pixels
+	 */
 	public void setWidth(int width) {
 		this.width = width;
 	}
 
+	/**
+	 * Get the height of the chart, in pixels
+	 * 
+	 * @return Height in pixels
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Set the height of the chart, in pixels
+	 * 
+	 * @param height Height in pixels
+	 */
 	public void setHeight(int height) {
 		this.height = height;
 	}
 
+	/**
+	 * Get the device pixel ratio of chart. If this value is greater than one, the
+	 * true width x height dimensions of the image will be multiplied by this value.
+	 * 
+	 * @return device to pixel ratio
+	 */
 	public double getDevicePixelRatio() {
 		return devicePixelRatio;
 	}
 
+	/**
+	 * Set the device pixel ratio of chart. If this value is greater than one, the
+	 * true width x height dimensions of the image will be multiplied by this value.
+	 * 
+	 * @param devicePixelRatio device to pixel ratio
+	 */
 	public void setDevicePixelRatio(double devicePixelRatio) {
 		this.devicePixelRatio = devicePixelRatio;
 	}
 
+	/**
+	 * Get the background color of the chart
+	 * 
+	 * @return Background color
+	 */
 	public String getBackgroundColor() {
 		return backgroundColor;
 	}
 
+	/**
+	 * Set the background color of the chart. Valid colors include named colors
+	 * ("red"), hex ("#abc123"), and rgb (rgb(255, 255, 255)).
+	 * 
+	 * @param backgroundColor Color
+	 */
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 
+	/**
+	 * Get the QuickChart API key
+	 * 
+	 * @return API key
+	 */
 	public String getKey() {
 		return key;
 	}
 
+	/**
+	 * Set the QuickChart API key
+	 * 
+	 * @param key API key
+	 */
 	public void setKey(String key) {
 		this.key = key;
 	}
 
+	/**
+	 * Get the Chart.js config
+	 * 
+	 * @return Chart.js config
+	 */
 	public String getConfig() {
 		return config;
 	}
 
+	/**
+	 * Set the Chart.js config to render
+	 * 
+	 * @param config Chart.js config. This should be a valid JSON or Javascript
+	 *               string.
+	 */
 	public void setConfig(String config) {
 		this.config = config;
 	}
 
+	/**
+	 * Generate a URL that displays a chart
+	 * 
+	 * @return URL that will display chart when rendered
+	 */
 	public String getUrl() {
 		URIBuilder builder = new URIBuilder();
-		builder.setScheme(this.protocol);
+		builder.setScheme(this.scheme);
 		builder.setHost(this.host);
 		if (port != 80 && port != 443) {
 			builder.setPort(this.port);
@@ -104,7 +186,7 @@ public class QuickChart {
 			builder.addParameter("bkg", this.backgroundColor);
 		}
 		builder.addParameter("c", this.config);
-		if (this.key != null && !this.key.isBlank()) {
+		if (this.key != null && !this.key.isEmpty()) {
 			builder.addParameter("key", this.key);
 		}
 		return builder.toString();
@@ -119,7 +201,7 @@ public class QuickChart {
 			jsonBuilder.put("backgroundColor", this.backgroundColor);
 		}
 		jsonBuilder.put("chart", this.config);
-		if (this.key != null && !this.key.isBlank()) {
+		if (this.key != null && !this.key.isEmpty()) {
 			jsonBuilder.put("key", this.key);
 		}
 		return jsonBuilder.toString();
@@ -127,7 +209,7 @@ public class QuickChart {
 
 	private HttpEntity executePost(String path) throws IOException {
 		URIBuilder uriBuilder = new URIBuilder();
-		uriBuilder.setScheme(this.protocol);
+		uriBuilder.setScheme(this.scheme);
 		uriBuilder.setHost(this.host);
 		if (port != 80 && port != 443) {
 			uriBuilder.setPort(this.port);
@@ -150,25 +232,61 @@ public class QuickChart {
 		return ret;
 	}
 
-	public String getShortUrl() throws ClientProtocolException, IOException {
-		HttpEntity entity = executePost("/chart/create");
-		String rawResponse = EntityUtils.toString(entity);
+	/**
+	 * Generate a shortened URL that displays the chart. This URL will eventually
+	 * expire.
+	 * 
+	 * @return A shortened URL that displays the chart or null if chart creation
+	 *         failed.
+	 */
+	public String getShortUrl() {
+		try {
+			HttpEntity entity = executePost("/chart/create");
+			String rawResponse = EntityUtils.toString(entity);
 
-		JSONTokener tokener = new JSONTokener(rawResponse);
-		JSONObject jsonResponse = new JSONObject(tokener);
-		return jsonResponse.getString("url");
+			JSONTokener tokener = new JSONTokener(rawResponse);
+			JSONObject jsonResponse = new JSONObject(tokener);
+			return jsonResponse.getString("url");
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
-	public byte[] toByteArray() throws IOException {
-		HttpEntity entity = executePost("/chart");
-		return EntityUtils.toByteArray(entity);
-	}
-	
-	public String toDataUrl() throws IOException {
-		HttpEntity entity = executePost("/chart");
-		return "data:image/png;base64," + Base64.getEncoder().encode(EntityUtils.toByteArray(entity));
+	/**
+	 * Bytes that represent a PNG chart
+	 * 
+	 * @return Chart bytes, or null if chart could not be rendered
+	 */
+	public byte[] toByteArray() {
+		try {
+			HttpEntity entity = executePost("/chart");
+			return EntityUtils.toByteArray(entity);
+		} catch (IOException ex) {
+			return null;
+		}
 	}
 
+	/**
+	 * Get a base64 data URL representation of this chart. Can be embedded on the
+	 * web.
+	 * 
+	 * @return A base64 data URI, or null if chart could not be rendered.
+	 */
+	public String toDataUrl() {
+		try {
+			HttpEntity entity = executePost("/chart");
+			return "data:image/png;base64," + Base64.getEncoder().encode(EntityUtils.toByteArray(entity));
+		} catch (IOException ex) {
+			return null;
+		}
+	}
+
+	/**
+	 * Write this chart image to a file (PNG format)
+	 * 
+	 * @param filePath File path
+	 * @throws IOException Thrown when file could not be written successfully
+	 */
 	public void toFile(String filePath) throws IOException {
 		HttpEntity entity = executePost("/chart");
 		BufferedHttpEntity entityBuffer = new BufferedHttpEntity(entity);
