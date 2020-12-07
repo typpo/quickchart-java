@@ -1,6 +1,6 @@
 quickchart-java
 ---
-![Maven Central](http://img.shields.io/maven-central/v/io.quickchart/QuickChart.svg?style=flat)
+[![Maven Central](http://img.shields.io/maven-central/v/io.quickchart/QuickChart.svg?style=flat)](https://mvnrepository.com/artifact/io.quickchart/QuickChart)
 
 A Java client for the QuickChart.io chart API.
 
