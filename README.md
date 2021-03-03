@@ -6,7 +6,7 @@ A Java client for the QuickChart.io chart API.
 
 ## Installation 
 
-Add QuickChart to your project (Java 6+).
+Add QuickChart to your project (Java 6+).  The `io.quickchart` package is available on [Maven Central](https://search.maven.org/artifact/io.quickchart/QuickChart)
 
 Maven:
 ```xml
