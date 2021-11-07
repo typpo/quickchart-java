@@ -19,7 +19,7 @@ public class QuickChartTest extends TestCase {
 				+ "    }"
 				+ "}"
 		);
-		
+
 		String url = chart.getUrl();
 		assertTrue(url.indexOf("https://quickchart.io/chart") == 0);
 		assertTrue(url.indexOf("w=500&h=300") > -1);
@@ -27,7 +27,7 @@ public class QuickChartTest extends TestCase {
 		assertTrue(url.indexOf("key=") < 0);
 		assertTrue(url.indexOf("bkg=") < 0);
 	}
-	
+
 	public void testUrlWithBackgroundColor() {
 		QuickChart chart = new QuickChart();
 		chart.setBackgroundColor("pink");
@@ -44,7 +44,7 @@ public class QuickChartTest extends TestCase {
 				+ "    }"
 				+ "}"
 		);
-		
+
 		String url = chart.getUrl();
 		assertTrue(url.indexOf("https://quickchart.io/chart") == 0);
 		assertTrue(url.indexOf("w=500&h=300") > -1);
@@ -52,7 +52,7 @@ public class QuickChartTest extends TestCase {
 		assertTrue(url.indexOf("key=abc123") < 0);
 		assertTrue(url.indexOf("bkg=pink") > -1);
 	}
-	
+
 	public void testUrlWithKey() {
 		QuickChart chart = new QuickChart();
 		chart.setKey("abc123");
@@ -69,12 +69,37 @@ public class QuickChartTest extends TestCase {
 				+ "    }"
 				+ "}"
 		);
-		
+
 		String url = chart.getUrl();
 		assertTrue(url.indexOf("https://quickchart.io/chart") == 0);
 		assertTrue(url.indexOf("w=500&h=300") > -1);
 		assertTrue(url.indexOf("50%2C+60%2C+") > -1);
 		assertTrue(url.indexOf("key=abc123") > -1);
+		assertTrue(url.indexOf("bkg=") < 0);
+	}
+
+	public void testUrlWithVersion() {
+		QuickChart chart = new QuickChart();
+		chart.setVersion("2.9.4");
+		chart.setWidth(500);
+		chart.setHeight(300);
+		chart.setConfig("{"
+				+ "    type: 'bar',"
+				+ "    data: {"
+				+ "        labels: ['Q1', 'Q2', 'Q3', 'Q4'],"
+				+ "        datasets: [{"
+				+ "            label: 'Users',"
+				+ "            data: [50, 60, 70, 180]"
+				+ "        }]"
+				+ "    }"
+				+ "}"
+		);
+
+		String url = chart.getUrl();
+		assertTrue(url.indexOf("https://quickchart.io/chart") == 0);
+		assertTrue(url.indexOf("w=500&h=300") > -1);
+		assertTrue(url.indexOf("50%2C+60%2C+") > -1);
+		assertTrue(url.indexOf("v=2.9.4") > -1);
 		assertTrue(url.indexOf("bkg=") < 0);
 	}
 }
