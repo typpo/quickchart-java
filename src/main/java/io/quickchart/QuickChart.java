@@ -28,6 +28,7 @@ public class QuickChart {
 	private Double devicePixelRatio = 1.0;
 	private String backgroundColor = "transparent";
 	private String key;
+	private String version;
 	private String config;
 
 	private String scheme;
@@ -43,7 +44,7 @@ public class QuickChart {
 
 	/**
 	 * Create a QuickChart object with custom host.
-	 * 
+	 *
 	 * @param scheme HTTP or HTTPS
 	 * @param host   Hostname
 	 * @param port   Port
@@ -56,7 +57,7 @@ public class QuickChart {
 
 	/**
 	 * Get the width of the chart, in pixels
-	 * 
+	 *
 	 * @return Width in pixels
 	 */
 	public int getWidth() {
@@ -65,7 +66,7 @@ public class QuickChart {
 
 	/**
 	 * Set the width of the chart, in pixels
-	 * 
+	 *
 	 * @param width Width in pixels
 	 */
 	public void setWidth(int width) {
@@ -74,7 +75,7 @@ public class QuickChart {
 
 	/**
 	 * Get the height of the chart, in pixels
-	 * 
+	 *
 	 * @return Height in pixels
 	 */
 	public int getHeight() {
@@ -83,7 +84,7 @@ public class QuickChart {
 
 	/**
 	 * Set the height of the chart, in pixels
-	 * 
+	 *
 	 * @param height Height in pixels
 	 */
 	public void setHeight(int height) {
@@ -93,7 +94,7 @@ public class QuickChart {
 	/**
 	 * Get the device pixel ratio of chart. If this value is greater than one, the
 	 * true width x height dimensions of the image will be multiplied by this value.
-	 * 
+	 *
 	 * @return device to pixel ratio
 	 */
 	public double getDevicePixelRatio() {
@@ -103,7 +104,7 @@ public class QuickChart {
 	/**
 	 * Set the device pixel ratio of chart. If this value is greater than one, the
 	 * true width x height dimensions of the image will be multiplied by this value.
-	 * 
+	 *
 	 * @param devicePixelRatio device to pixel ratio
 	 */
 	public void setDevicePixelRatio(double devicePixelRatio) {
@@ -112,7 +113,7 @@ public class QuickChart {
 
 	/**
 	 * Get the background color of the chart
-	 * 
+	 *
 	 * @return Background color
 	 */
 	public String getBackgroundColor() {
@@ -122,7 +123,7 @@ public class QuickChart {
 	/**
 	 * Set the background color of the chart. Valid colors include named colors
 	 * ("red"), hex ("#abc123"), and rgb (rgb(255, 255, 255)).
-	 * 
+	 *
 	 * @param backgroundColor Color
 	 */
 	public void setBackgroundColor(String backgroundColor) {
@@ -131,7 +132,7 @@ public class QuickChart {
 
 	/**
 	 * Get the QuickChart API key
-	 * 
+	 *
 	 * @return API key
 	 */
 	public String getKey() {
@@ -140,7 +141,7 @@ public class QuickChart {
 
 	/**
 	 * Set the QuickChart API key
-	 * 
+	 *
 	 * @param key API key
 	 */
 	public void setKey(String key) {
@@ -148,8 +149,26 @@ public class QuickChart {
 	}
 
 	/**
+	 * Get the Chart.js version number
+	 *
+	 * @return Chart.js version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * Set the Chart.js version number
+	 *
+	 * @param version Chart.js version
+	 */
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	/**
 	 * Get the Chart.js config
-	 * 
+	 *
 	 * @return Chart.js config
 	 */
 	public String getConfig() {
@@ -158,7 +177,7 @@ public class QuickChart {
 
 	/**
 	 * Set the Chart.js config to render
-	 * 
+	 *
 	 * @param config Chart.js config. This should be a valid JSON or Javascript
 	 *               string.
 	 */
@@ -168,7 +187,7 @@ public class QuickChart {
 
 	/**
 	 * Generate a URL that displays a chart
-	 * 
+	 *
 	 * @return URL that will display chart when rendered
 	 */
 	public String getUrl() {
@@ -189,6 +208,9 @@ public class QuickChart {
 		if (this.key != null && !this.key.isEmpty()) {
 			builder.addParameter("key", this.key);
 		}
+		if (this.version != null && !this.version.isEmpty()) {
+			builder.addParameter("v", this.version);
+		}
 		return builder.toString();
 	}
 
@@ -203,6 +225,9 @@ public class QuickChart {
 		jsonBuilder.put("chart", this.config);
 		if (this.key != null && !this.key.isEmpty()) {
 			jsonBuilder.put("key", this.key);
+		}
+		if (this.version != null && !this.version.isEmpty()) {
+			jsonBuilder.put("version", this.version);
 		}
 		return jsonBuilder.toString();
 	}
@@ -235,7 +260,7 @@ public class QuickChart {
 	/**
 	 * Generate a shortened URL that displays the chart. This URL will eventually
 	 * expire.
-	 * 
+	 *
 	 * @return A shortened URL that displays the chart or null if chart creation
 	 *         failed.
 	 */
@@ -254,7 +279,7 @@ public class QuickChart {
 
 	/**
 	 * Bytes that represent a PNG chart
-	 * 
+	 *
 	 * @return Chart bytes, or null if chart could not be rendered
 	 */
 	public byte[] toByteArray() {
@@ -269,7 +294,7 @@ public class QuickChart {
 	/**
 	 * Get a base64 data URL representation of this chart. Can be embedded on the
 	 * web.
-	 * 
+	 *
 	 * @return A base64 data URI, or null if chart could not be rendered.
 	 */
 	public String toDataUrl() {
@@ -283,7 +308,7 @@ public class QuickChart {
 
 	/**
 	 * Write this chart image to a file (PNG format)
-	 * 
+	 *
 	 * @param filePath File path
 	 * @throws IOException Thrown when file could not be written successfully
 	 */

@@ -4,7 +4,7 @@ quickchart-java
 
 A Java client for the QuickChart.io chart API.
 
-## Installation 
+## Installation
 
 Add QuickChart to your project (Java 6+).  The `io.quickchart` package is available on [Maven Central](https://search.maven.org/artifact/io.quickchart/QuickChart)
 
@@ -90,6 +90,9 @@ The background color of the chart. Any valid HTML color works. Defaults to #ffff
 
 ### setDevicePixelRatio(Double)
 The device pixel ratio of the chart. This will multiply the number of pixels by the value. This is usually used for retina displays. Defaults to 1.0.
+
+### setVersion(String)
+The Chart.js version of the chart.  See QuickChart documentation for default.
 
 ### setKey(String)
 API key (not required)
