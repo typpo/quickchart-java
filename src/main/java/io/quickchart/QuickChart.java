@@ -244,9 +244,8 @@ public class QuickChart {
 		CloseableHttpClient client = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(uriBuilder.toString());
 
-		StringEntity entity = new StringEntity(this.getPostJson());
+		StringEntity entity = new StringEntity(this.getPostJson(), "utf-8");
 		httpPost.setEntity(entity);
-		httpPost.setHeader("Accept", "application/json");
 		httpPost.setHeader("Content-type", "application/json");
 
 		HttpResponse response = client.execute(httpPost);
