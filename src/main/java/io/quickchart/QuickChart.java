@@ -249,8 +249,14 @@ public class QuickChart {
 		httpPost.setHeader("Content-type", "application/json");
 
 		HttpResponse response = client.execute(httpPost);
-		if (response.getStatusLine().getStatusCode() != 200) {
-			throw new RuntimeException("Received invalid status code from API endpoint");
+		int statusCode = response.getStatusLine().getStatusCode();
+		String detailedError = "";
+		if (response.containsHeader("x-quickchart-error")) {
+			detailedError = "\n\n" + response.getFirstHeader("x-quickchart-error").getValue();
+		}
+		if (statusCode != 200) {
+			throw new RuntimeException(
+					"Received invalid status code " + statusCode + " from API endpoint" + detailedError);
 		}
 		HttpEntity ret = response.getEntity();
 		return ret;
