@@ -92,7 +92,7 @@ The background color of the chart. Any valid HTML color works. Defaults to #ffff
 The device pixel ratio of the chart. This will multiply the number of pixels by the value. This is usually used for retina displays. Defaults to 1.0.
 
 ### setVersion(String)
-The Chart.js version of the chart.  See QuickChart documentation for default.
+The Chart.js version of the chart.  See [QuickChart documentation](https://quickchart.io/documentation/#parameters) for default.
 
 ### setKey(String)
 API key (not required)
