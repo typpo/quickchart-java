@@ -214,20 +214,23 @@ public class QuickChart {
 		return builder.toString();
 	}
 
-	private String getPostJson() {
+	private String getPostJson(String path) {
 		JSONObject jsonBuilder = new JSONObject();
-		jsonBuilder.put("width", this.width.toString());
-		jsonBuilder.put("height", this.height.toString());
-		jsonBuilder.put("devicePixelRatio", this.devicePixelRatio.toString());
-		if (!this.backgroundColor.equals("transparent")) {
-			jsonBuilder.put("backgroundColor", this.backgroundColor);
-		}
 		jsonBuilder.put("chart", this.config);
-		if (this.key != null && !this.key.isEmpty()) {
-			jsonBuilder.put("key", this.key);
-		}
-		if (this.version != null && !this.version.isEmpty()) {
-			jsonBuilder.put("version", this.version);
+
+		if (!path.equals("/chart/create")) {
+			jsonBuilder.put("width", this.width.toString());
+			jsonBuilder.put("height", this.height.toString());
+			jsonBuilder.put("devicePixelRatio", this.devicePixelRatio.toString());
+			if (!this.backgroundColor.equals("transparent")) {
+				jsonBuilder.put("backgroundColor", this.backgroundColor);
+			}
+			if (this.key != null && !this.key.isEmpty()) {
+				jsonBuilder.put("key", this.key);
+			}
+			if (this.version != null && !this.version.isEmpty()) {
+				jsonBuilder.put("version", this.version);
+			}
 		}
 		return jsonBuilder.toString();
 	}
@@ -244,7 +247,7 @@ public class QuickChart {
 		CloseableHttpClient client = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(uriBuilder.toString());
 
-		StringEntity entity = new StringEntity(this.getPostJson(), "utf-8");
+		StringEntity entity = new StringEntity(this.getPostJson(path), "utf-8");
 		httpPost.setEntity(entity);
 		httpPost.setHeader("Content-type", "application/json");
 
